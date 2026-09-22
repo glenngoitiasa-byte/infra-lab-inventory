@@ -3,6 +3,13 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE_IMG="${SCRIPT_DIR}/base_images/debian-base.qcow2"
+
+if [ ! -f "$BASE_IMG" ]; then
+    echo "Downloading base Debian12 GenericCloud... "
+    mkdir -p base_images
+    wget -O "$BASE_IMG" https://cloud.debian.org/images/cloud/bookworm/latest/debian-12-genericcloud-amd64.qcow2
+fi
+
 VM_DIR="${SCRIPT_DIR}/vm_instance"
 WORK_IMG="${VM_DIR}/debian-target.qcow2"
 SEED_ISO="${VM_DIR}/seed.iso"
