@@ -1,0 +1,27 @@
+# Virtual setup and installers
+.venv/
+__pycache__/ 
+*.pyc 
+
+# Enviroments variables and credentials
+.env 
+
+# Database SQLite local
+*.db 
+*.sqlite3 
+
+# Configuration archives from editors / SO
+.vscode/
+.idea/
+.DS_Store
+
+# VM archives and disc 
+base_images/*.qcow2
+base_images/*.qcow2.bak
+vm_instance/
+*.iso
+*.qcow2
+
+#SSH private keys
+.ssh/
+base_images/*.qcow2.bak

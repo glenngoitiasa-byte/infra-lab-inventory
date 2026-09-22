@@ -1,0 +1,94 @@
+---
+- name: Provide Docker and Deploy API "inventory-api" on Debian
+  hosts: api_servers
+  become: true
+
+  tasks:
+    - name: Ensure DNS resolution is working
+      ansible.builtin.shell: |
+        rm -f /etc/resolv.conf
+        echo "nameserver 1.1.1.1" > /etc/resolv.conf
+        echo "nameserver 8.8.8.8" >> /etc/resolv.conf
+      args:
+        creates: /etc/resolv.conf.fixed
+
+    # Instalación de Docker en Debian Cloud
+    - name: Install prerequisites for Docker
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - gnupg
+        state: present 
+        update_cache: yes   # <-- Cambiado a yes para refrescar la lista de repositorios
+
+    - name: Create directory for GPG keys of apt 
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+        mode: '0755'
+
+    - name: Download official GPG key of Docker
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/debian/gpg
+        dest: /etc/apt/keyrings/docker.asc 
+        mode: '0644'
+
+    - name: Add official Docker repository
+      ansible.builtin.deb822_repository:
+        name: docker
+        types: deb
+        uris: https://download.docker.com/linux/debian
+        suites: "{{ ansible_distribution_release }}"
+        components: stable
+        signed_by: /etc/apt/keyrings/docker.asc
+        state: present
+    
+    - name: Install Docker Engine and the Compose plugin
+      ansible.builtin.apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io 
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Assure that the services of Docker are enabled and active 
+      ansible.builtin.systemd:
+        name: docker 
+        state: started 
+        enabled: yes 
+
+    - name: Add the sysadmin user to the Docker group
+      ansible.builtin.user:
+        name: sysadmin 
+        groups: docker
+        append: yes
+
+    - name: Create app destination directory
+      ansible.builtin.file:
+        path: /opt/inventory-api
+        state: directory
+        owner: sysadmin
+        group: sysadmin
+        mode: '0755'
+
+    - name: Compress clean code locally
+      delegate_to: localhost
+      become: false
+      ansible.builtin.command:
+        cmd: tar --exclude='.venv' --exclude='.git' --exclude='__pycache__' --exclude='*.db' -czf /tmp/inventory-api.tar.gz -C ../app/inventory-api .
+
+    - name: Extract clean code inside VM
+      ansible.builtin.unarchive:
+        src: /tmp/inventory-api.tar.gz
+        dest: /opt/inventory-api/
+        owner: sysadmin
+        group: sysadmin
+        mode: '0755'
+
+    - name: Deploy complete stack with Docker Compose
+      ansible.builtin.command:
+        cmd: docker compose up -d --build 
+        chdir: /opt/inventory-api
