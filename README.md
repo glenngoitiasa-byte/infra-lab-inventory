@@ -13,8 +13,7 @@ The pipeline executes an automated workflow: it provisions an ephemeral virtual 
 ```mermaid
 graph TD
     subgraph Host["Host Machine (Linux)"]
-        A[deploy.sh] -->|1. Creates Ephemeral Copy-On-Write Disk| B(QEMU Hypervisor)
-        A -->|2. Generates NoCloud ISO| B
+        A[deploy.sh] -->|1. Creates Ephemeral Copy-On-Write Disk and generates NoCloud ISO|| B(QEMU Hypervisor)
         A -->|4. Runs Playbook| F[Ansible Engine]
     end
 
@@ -105,6 +104,6 @@ Once the deployment finishes:
 
 To stop the QEMU instance and clean up ephemeral disk images and temporary build files:
 
-```console
+```bash
 ./destroy.sh
 ```
