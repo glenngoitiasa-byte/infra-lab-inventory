@@ -1,0 +1,3 @@
+[submodule "app/inventory-api"]
+	path = app/inventory-api
+	url = https://github.com/glenngoitiasa-byte/inventory-api
