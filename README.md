@@ -65,7 +65,7 @@ sudo pacman -S qemu-full cloud-utils ansible curl
 Because the application layer is linked as a Git Submodule, clone using --recurse-submodules:
 
 ```bash
-git clone --recurse-submodules [https://github.com/tu-usuario/infra-lab-inventory.git](https://github.com/glenngoitiasa-byte/infra-lab-inventory.git)
+git clone --recurse-submodules [https://github.com/glenngoitiasa-byte/infra-lab-inventory.git](https://github.com/glenngoitiasa-byte/infra-lab-inventory.git)
 cd infra-lab-inventory
 ```
 
