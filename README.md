@@ -1,6 +1,6 @@
 # 🚀 Zero-Touch IaC Infrastructure & API Deployment Pipeline
 
-An automated Infrastructure as Code (IaC) and deployment pipeline for a cloud-based **Debian 12 Virtual Machine** running a containerized **FastAPI + PostgreSQL** backend stack. 
+An automated Infrastructure as Code (IaC) and deployment pipeline for a cloud-based **Debian 12 Virtual Machine** running a containerized **FastAPI and PostgreSQL** backend stack. 
 
 Built with **QEMU/KVM**, **Cloud-Init**, **Ansible**, **Docker Compose**, and **uv**.
 
@@ -65,7 +65,7 @@ sudo pacman -S qemu-full cloud-utils ansible curl
 Because the application layer is linked as a Git Submodule, clone using --recurse-submodules:
 
 ```bash
-git clone --recurse-submodules [https://github.com/tu-usuario/infra-lab-inventory.git](https://github.com/tu-usuario/infra-lab-inventory.git)
+git clone --recurse-submodules [https://github.com/tu-usuario/infra-lab-inventory.git](https://github.com/glenngoitiasa-byte/infra-lab-inventory.git)
 cd infra-lab-inventory
 ```
 
@@ -93,9 +93,9 @@ Once the deployment finishes:
     
     ```bash
     curl -X POST "http://localhost:8000/products/1/output?quantity=2"
-
-    SSH into Virtual Machine:
     ```
+
+- SSH into Virtual Machine:
 
     ```bash
     ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p 2222 sysadmin@127.0.0.1
@@ -108,4 +108,3 @@ To stop the QEMU instance and clean up ephemeral disk images and temporary build
 ```console
 ./destroy.sh
 ```
-
