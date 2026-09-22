@@ -14,17 +14,17 @@ The pipeline executes an automated workflow: it provisions an ephemeral virtual 
 graph TD
     subgraph Host["Host Machine (Linux)"]
         A[deploy.sh] -->|1. Creates Ephemeral Copy-On-Write Disk and generates NoCloud ISO|| B(QEMU Hypervisor)
-        A -->|4. Runs Playbook| F[Ansible Engine]
+        A -->|3. Runs Playbook| F[Ansible Engine]
     end
 
     subgraph VM["Debian 12 GenericCloud VM"]
-        B -->|3. Boots Image + Cloud-Init| C[Systemd-Networkd & SSH]
-        F -->|5. Installs Docker & Tools| D[Docker Engine]
-        F -->|6. Copies API Source Code| E[/opt/inventory-api/]
+        B -->|2. Boots Image + Cloud-Init| C[Systemd-Networkd & SSH]
+        F -->|4. Installs Docker & Tools| D[Docker Engine]
+        F -->|5. Copies API Source Code| E[/opt/inventory-api/]
         
         subgraph DockerStack["Docker Compose Stack"]
-            D -->|7. Launches Containers| G[FastAPI Container - Port 8000]
-            D -->|7. Launches Containers| H[(PostgreSQL 15 Container)]
+            D -->|6. Launches Containers| G[FastAPI Container - Port 8000]
+            D -->|6. Launches Containers| H[(PostgreSQL 15 Container)]
             G <-->|Internal Network| H
         end
     end
