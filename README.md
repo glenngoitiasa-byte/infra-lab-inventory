@@ -1,5 +1,3 @@
-> 📌 **Note:** This repository automates the infrastructure and deployment pipeline for the [inventory-api](https://github.com/glenngoitiasa-byte/inventory-api) project.
-
 # 🚀 Automated End-to-End Infrastructure & API Deployment Pipeline
 
 An automated Infrastructure as Code (IaC) and deployment pipeline for a cloud-based **Debian 12 Virtual Machine** running a containerized **FastAPI + PostgreSQL** backend stack. Built with **QEMU/KVM**, **Cloud-Init**, **Ansible**, **Docker Compose**, and **uv**.
