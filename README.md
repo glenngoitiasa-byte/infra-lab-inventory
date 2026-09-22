@@ -13,7 +13,7 @@ The pipeline executes an automated workflow: it provisions an ephemeral virtual 
 ```mermaid
 graph TD
     subgraph Host["Host Machine (Linux)"]
-        A[deploy.sh] -->|1. Creates Ephemeral Copy-On-Write Disk and generates NoCloud ISO|| B(QEMU Hypervisor)
+        A[deploy.sh] -->|1. Creates Ephemeral Copy-On-Write Disk and generates NoCloud ISO| B(QEMU Hypervisor)
         A -->|3. Runs Playbook| F[Ansible Engine]
     end
 
